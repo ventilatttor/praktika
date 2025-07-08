@@ -1,0 +1,281 @@
+:root {
+    --bg-color: #ffffff;
+    --card-bg: #d6d6d6; /* Изменённый цвет карточек */
+    --menu-btn-bg: #f5f5f5; /* Цвет кнопки меню как раньше */
+    --text-color: #333333;
+    --border-color: #dddddd;
+    --hover-color: #c0c0c0;
+    --primary-color: #4a4a4a;
+    --danger-color: #e74c3c;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Меню */
+.menu-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 12px;
+    background-color: var(--menu-btn-bg); /* Возвращаем старый цвет */
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.dropdown-content {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: var(--card-bg);
+    min-width: 180px;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    z-index: 1;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.dropdown-content button {
+    padding: 10px 16px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-content button:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content button:hover {
+    background-color: var(--hover-color);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Основное содержимое */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 50px;
+}
+
+.board-view {
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 80vh;
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.board-title {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.delete-board-btn {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.delete-board-btn:hover {
+    text-decoration: underline;
+}
+
+.cards-actions {
+    margin-bottom: 15px;
+}
+
+.add-card-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-card-btn:hover {
+    background-color: #333;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background-color: var(--card-bg); /* Новый цвет карточек */
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.card:hover {
+    background-color: var(--hover-color);
+}
+
+.card-title {
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.card-content {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+/* Модальные окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid var(--border-color);
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modal-content textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.boards-list {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.board-item {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.board-item:hover {
+    background-color: var(--hover-color);
+}
+
+.board-item.active {
+    font-weight: bold;
+    background-color: var(--card-bg);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.form-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.form-actions button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+    background-color: #333;
+}
+
+.form-actions .danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.form-actions .danger:hover {
+    background-color: #c0392b;
+}
+
+.form-actions .cancel-btn {
+    background-color: var(--hover-color);
+}
+#confirm-modal .modal-content {
+    max-width: 400px;
+}
+
+#confirm-title {
+    margin-bottom: 15px;
+}
+
+#confirm-message {
+    margin-bottom: 20px;
+}
