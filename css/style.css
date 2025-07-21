@@ -1,13 +1,44 @@
 :root {
+    /* Светлая тема (по умолчанию) */
     --bg-color: #ffffff;
-    --card-bg: #d6d6d6; /* Изменённый цвет карточек */
-    --menu-btn-bg: #f5f5f5; /* Цвет кнопки меню как раньше */
+    --card-bg: #d6d6d6;
+    --menu-btn-bg: #f5f5f5;
     --text-color: #333333;
     --border-color: #dddddd;
     --hover-color: #c0c0c0;
     --primary-color: #4a4a4a;
     --danger-color: #e74c3c;
     --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --planned-color: #f0f8ff;
+    --in-progress-color: #fffaf0;
+    --done-color: #f0fff0;
+}
+
+[data-theme="dark"] {
+        --bg-color: #1a1a1a;
+        --card-bg: #2d2d2d;
+        --menu-btn-bg: #333;
+        --text-color: #f0f0f0;
+        --border-color: #444;
+        --hover-color: #555;
+        --primary-color: #3a3a3a;
+        --danger-color: #c0392b;
+        --shadow: 0 2px 4px rgba(0,0,0,0.3);
+        
+        /* Цвета колонок (менее яркие) */
+        --planned-color: #1a2a3a;
+        --in-progress-color: #3a2a1a;
+        --done-color: #1a3a1a;
+        
+        /* Стили для полей ввода */
+        --input-bg: #2d2d2d;
+        --input-text: #f0f0f0;
+        --input-border: #444;
+}
+
+/* Добавим плавные переходы */
+body, .card, .column, .modal-content {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 * {
@@ -39,7 +70,7 @@ body {
     font-size: 24px;
     cursor: pointer;
     padding: 8px 12px;
-    background-color: var(--menu-btn-bg); /* Возвращаем старый цвет */
+    background-color: var(--menu-btn-bg);
     border-radius: 4px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
@@ -140,14 +171,48 @@ body {
     background-color: #333;
 }
 
-.cards-container {
+.columns-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
 }
 
+.column {
+    background-color: var(--bg-color);
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.column[data-status="planned"] {
+    background-color: var(--planned-color);
+}
+
+.column[data-status="in-progress"] {
+    background-color: var(--in-progress-color);
+}
+
+.column[data-status="done"] {
+    background-color: var(--done-color);
+}
+
+.column-title {
+    font-weight: 500;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.cards-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-height: 100px;
+}
+
 .card {
-    background-color: var(--card-bg); /* Новый цвет карточек */
+    background-color: var(--card-bg);
     border-radius: 6px;
     padding: 15px;
     box-shadow: var(--shadow);
@@ -198,7 +263,8 @@ body {
 }
 
 .modal-content input,
-.modal-content textarea {
+.modal-content textarea,
+.modal-content select {
     width: 100%;
     padding: 10px;
     margin-bottom: 16px;
@@ -268,6 +334,7 @@ body {
 .form-actions .cancel-btn {
     background-color: var(--hover-color);
 }
+
 #confirm-modal .modal-content {
     max-width: 400px;
 }
@@ -278,4 +345,143 @@ body {
 
 #confirm-message {
     margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .columns-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding-top: 60px;
+    }
+}
+.card[draggable="true"] {
+    cursor: grab;
+    user-select: none;
+}
+
+.card.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.cards-column.drop-zone {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 2px dashed var(--primary-color);
+}
+/* Стили для переключателя темы */
+.settings-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+/* Дополнения для темной темы */
+[data-theme="dark"] {
+    /* Цвета фона для колонок (менее яркие) */
+    --planned-color: #1a2a3a;
+    --in-progress-color: #3a2a1a;
+    --done-color: #1a3a1a;
+    
+    /* Стили для полей ввода */
+    --input-bg: #2d2d2d;
+    --input-text: #f0f0f0;
+    --input-border: #444;
+}
+
+/* Стили для полей ввода в темной теме */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border-color: var(--input-border);
+}
+
+/* Стили для выпадающего меню */
+[data-theme="dark"] .dropdown-content {
+    background-color: var(--primary-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-content button {
+    color: var(--text-color);
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-content button:hover {
+    background-color: var(--hover-color);
+    color: var(--text-color);
+}
+
+/* Дополнительные стили для улучшения читаемости */
+[data-theme="dark"] .column {
+    background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .card {
+    background-color: var(--bg-color);
+}
+
+[data-theme="dark"] .modal-content {
+    background-color: var(--card-bg);
+}
+
+/* Плавные переходы для всех элементов */
+input, textarea, select, .dropdown-content, .column, .card {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
